@@ -1,12 +1,19 @@
-import { Controller, Get } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 import { UserService } from "./user.service";
+import { UserDto } from "./dto/user.dto";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 @Controller()
 export class UserController {
-    constructor(private readonly appService: UserService) {}
+    constructor(private readonly userService: UserService) {}
 
-    @Get()
-    getHello(): string {
-        return this.appService.getHello();
+    @Post()
+    @ApiTags("User")
+    @ApiOperation({ description: "Create new user" })
+    @ApiResponse({ status: 201, description: "User created" })
+    createNewUser(@Body() data: UserDto) {
+        this.userService.createUser(data);
+
+        return "ok";
     }
 }

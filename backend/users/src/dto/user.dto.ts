@@ -23,6 +23,50 @@ export class UserDto {
         required: false,
         example: "07/15/2023",
     })
+    birthday?: Date;
+
+    @ApiProperty({
+        description: "whether the user want's his profile hidden or not",
+        required: false,
+        default: false,
+    })
+    private?: boolean;
+
+    @ApiProperty({
+        description: "User's nick name",
+        required: false,
+        default: "user's name",
+    })
+    username?: string;
+
+    @ApiProperty({
+        description: "whether the user want's to receive notifications or not",
+        required: false,
+        default: true,
+    })
+    notifications?: boolean;
+
+    @ApiProperty({
+        description: "whether the user want's to receive messages or not",
+        required: false,
+        default: true,
+    })
+    messages?: boolean;
+}
+
+export class UserEditableDto {
+    @ApiProperty({ description: "User name", required: true })
+    name: string;
+
+    @ApiProperty({ description: "User last names", required: true })
+    lastNames: string;
+
+    @ApiProperty({
+        description:
+            "User Birthday. We care only month & day since we won't calculate the exact number of years the user va a cumplir",
+        required: false,
+        example: "07/15/2023",
+    })
     birthday: Date;
 
     @ApiProperty({
