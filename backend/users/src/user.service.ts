@@ -8,10 +8,10 @@ import { InjectModel } from "@nestjs/mongoose";
 export class UserService {
     constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-    async createUser(user: UserDto): Promise<User> {
+    async createUser(user: UserDto): Promise<string> {
         const newUser = new this.userModel(user);
         await newUser.save();
-        return newUser;
+        return newUser._id.toString();
     }
 
     async deleteAll(): Promise<void> {

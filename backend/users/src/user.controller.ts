@@ -11,10 +11,11 @@ export class UserController {
     @ApiTags("Create User")
     @ApiOperation({ description: "Create new user" })
     @ApiResponse({ status: 201, description: "User created" })
-    async createNewUser(@Body() data: UserDto): Promise<UserDto> {
+    async createNewUser(@Body() data: UserDto): Promise<{ id: string }> {
         try {
             //TODO: ofuscate password
-            return await this.userService.createUser(data);
+            const id = await this.userService.createUser(data);
+            return { id };
         } catch (error) {
             throw new BadRequestException("Ups!");
         }
