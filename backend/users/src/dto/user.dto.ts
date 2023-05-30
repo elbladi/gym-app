@@ -71,10 +71,10 @@ export class UserDto implements IUser {
 export class UserEditableDto {
     @IsNotEmpty()
     @IsString()
-    @ApiProperty({ description: "User name", required: true })
+    @ApiProperty({ description: "User name", required: false })
     name?: string;
 
-    @ApiProperty({ description: "User last names", required: true })
+    @ApiProperty({ description: "User last names", required: false })
     @IsString()
     lastNames?: string;
 
