@@ -11,14 +11,13 @@ export class UserController {
     @ApiTags("Create User")
     @ApiOperation({ description: "Create new user" })
     @ApiResponse({ status: 201, description: "User created" })
+    @ApiResponse({ status: 400, description: "Bad Request: Validate the user doesn't exist" })
     async createNewUser(@Body() data: UserDto): Promise<{ id: string }> {
-        try {
-            //TODO: ofuscate password
-            const id = await this.userService.createUser(data);
-            return { id };
-        } catch (error) {
-            throw new BadRequestException("Ups!");
-        }
+        const userExist = await this.userService.userExist(data.email);
+        if (userExist) throw new BadRequestException("User already exists");
+
+        const id = await this.userService.createUser(data);
+        return { id };
     }
 
     @Get()
@@ -30,8 +29,8 @@ export class UserController {
     }
 
     @Delete()
-    @ApiTags("Delete User")
-    @ApiOperation({ description: "Delete user" })
+    @ApiTags("Delete All Users")
+    @ApiOperation({ description: "This operations is only meant to be used for development" })
     @ApiResponse({ status: 200, description: "User Deleted" })
     async deleteUser() {
         await this.userService.deleteAll();

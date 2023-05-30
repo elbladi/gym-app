@@ -25,6 +25,6 @@ async function bootstrap() {
         SwaggerModule.setup(`${GLOBAL_PREFIX}/docs`, app, doc);
     }
 
-    const srv = await app.listen(3000);
+    await app.listen(3000);
 }
 bootstrap();

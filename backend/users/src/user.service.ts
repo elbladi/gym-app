@@ -14,6 +14,11 @@ export class UserService {
         return newUser._id.toString();
     }
 
+    async userExist(email: string): Promise<boolean> {
+        const resp = await this.userModel.findOne({ email });
+        return resp !== null;
+    }
+
     async deleteAll(): Promise<void> {
         await this.userModel.deleteMany({
             name: "Bladimir",
