@@ -2,6 +2,7 @@ import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put } 
 import { UserService } from "./user.service";
 import { UserDto, UserEditableDto } from "./dto/user.dto";
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { UserResponse } from "./responses/userResponse.res";
 
 @Controller()
 export class UserController {
@@ -38,6 +39,25 @@ export class UserController {
 
         await this.userService.updateUser(userId, body);
         return "ok";
+    }
+
+    @Get(":id")
+    @ApiTags("Get user details")
+    @ApiParam({
+        name: "id",
+        description: "user id",
+        required: true,
+        allowEmptyValue: false,
+        example: "64758ba575eae3ee89076fdd",
+    })
+    @ApiOperation({ description: "Get user details" })
+    @ApiResponse({ status: 200, description: "user details", type: UserResponse })
+    @ApiResponse({ status: 400, description: "user probably doesnt exist" })
+    async getUser(@Param("id") userId: string): Promise<UserResponse> {
+        const userExist = await this.userService.userExistById(userId);
+        if (!userExist) throw new BadRequestException(`User ${userId} not found`);
+
+        return await this.userService.getUser(userId);
     }
 
     @Get()
