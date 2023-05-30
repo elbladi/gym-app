@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, Post } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { UserDto } from "./dto/user.dto";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
@@ -7,13 +7,33 @@ import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
-    @Post()
-    @ApiTags("User")
+    @Post("create")
+    @ApiTags("Create User")
     @ApiOperation({ description: "Create new user" })
     @ApiResponse({ status: 201, description: "User created" })
-    createNewUser(@Body() data: UserDto) {
-        this.userService.createUser(data);
+    async createNewUser(@Body() data: UserDto): Promise<UserDto> {
+        try {
+            //TODO: ofuscate password
+            return await this.userService.createUser(data);
+        } catch (error) {
+            throw new BadRequestException("Ups!");
+        }
+    }
 
+    @Get()
+    @ApiTags("Get All Users")
+    @ApiOperation({ description: "Get user" })
+    @ApiResponse({ status: 200, description: "User" })
+    async getUsers() {
+        return await this.userService.getAll();
+    }
+
+    @Delete()
+    @ApiTags("Delete User")
+    @ApiOperation({ description: "Delete user" })
+    @ApiResponse({ status: 200, description: "User Deleted" })
+    async deleteUser() {
+        await this.userService.deleteAll();
         return "ok";
     }
 }

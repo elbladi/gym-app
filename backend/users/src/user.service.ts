@@ -1,22 +1,27 @@
 import { Injectable } from "@nestjs/common";
 import { UserDto, UserEditableDto } from "./dto/user.dto";
-
-type DB = {
-    [id: string]: UserDto | UserEditableDto;
-};
-
-let db: DB = {
-    admin: {
-        name: "a",
-        lastNames: "a",
-        email: "",
-        password: "",
-    },
-};
+import { User } from "./schemas/users.schema";
+import { Model } from "mongoose";
+import { InjectModel } from "@nestjs/mongoose";
 
 @Injectable()
 export class UserService {
-    createUser(user: UserDto) {
-        db = { ...db, user };
+    constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+
+    async createUser(user: UserDto): Promise<User> {
+        const newUser = new this.userModel(user);
+        await newUser.save();
+        return newUser;
+    }
+
+    async deleteAll(): Promise<void> {
+        await this.userModel.deleteMany({
+            name: "Bladimir",
+        });
+        return;
+    }
+
+    async getAll() {
+        return await this.userModel.find();
     }
 }

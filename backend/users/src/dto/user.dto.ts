@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IUser } from "../types";
 
-export class UserDto {
+export class UserDto implements IUser {
     @ApiProperty({ description: "User name", required: true })
     name: string;
 
@@ -23,7 +24,7 @@ export class UserDto {
         required: false,
         example: "07/15/2023",
     })
-    birthday?: Date;
+    birthday?: number;
 
     @ApiProperty({
         description: "whether the user want's his profile hidden or not",
