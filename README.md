@@ -16,7 +16,7 @@ Name: TBD
 
 ## Execution
 
-on the root folder, open a terminal an run
+on the root folder, open a terminal and run
 
 ```
 skaffold dev
