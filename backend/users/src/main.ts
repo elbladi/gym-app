@@ -3,12 +3,17 @@ import { AppModule } from "./app.module";
 import { ConfigService } from "@nestjs/config";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { ValidationPipe } from "@nestjs/common";
 
-const GLOBAL_PREFIX = "/users";
+const GLOBAL_PREFIX = "/api/users";
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
     const configService = app.get(ConfigService);
+    app.enableCors();
+    app.set("trust proxy", true);
+    app.setGlobalPrefix(GLOBAL_PREFIX);
+    app.useGlobalPipes(new ValidationPipe());
 
     // OpenAPI config (only for dev environment)
     if (configService.get("NODE_ENV", "development") === "development") {
