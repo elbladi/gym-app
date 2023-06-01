@@ -46,6 +46,7 @@ export class UserService {
             name && (user.name = name);
             lastNames && (user.lastNames = lastNames);
             birthday && (user.birthday = birthday);
+            data.private && (user.private = data.private);
             username && (user.username = username);
             notifications && (user.notifications = notifications);
             messages && (user.messages = messages);
@@ -58,6 +59,10 @@ export class UserService {
     async deleteAll(): Promise<void> {
         await this.userModel.deleteMany({});
         return;
+    }
+
+    async deleteUser(id: string): Promise<void> {
+        await this.userModel.findByIdAndDelete(id);
     }
 
     async getAll() {

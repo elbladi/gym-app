@@ -1,4 +1,14 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    Delete,
+    Get,
+    NotFoundException,
+    Param,
+    Post,
+    Put,
+} from "@nestjs/common";
 import { UserService } from "./user.service";
 import { UserDto, UserEditableDto } from "./dto/user.dto";
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
@@ -62,18 +72,30 @@ export class UserController {
 
     @Get()
     @ApiTags("Get All Users")
-    @ApiOperation({ description: "Get user" })
+    @ApiOperation({ description: "Get all users. Dev only" })
     @ApiResponse({ status: 200, description: "User" })
     async getUsers() {
         return await this.userService.getAll();
     }
 
     @Delete()
-    @ApiTags("Delete All Users")
+    @ApiTags("Delete")
     @ApiOperation({ description: "This operations is only meant to be used for development" })
     @ApiResponse({ status: 200, description: "User Deleted" })
-    async deleteUser() {
+    async deleteAllUsers() {
         await this.userService.deleteAll();
+        return "ok";
+    }
+
+    @Delete(":id")
+    @ApiTags("Delete")
+    @ApiOperation({ description: "Delete specified user if exists" })
+    @ApiResponse({ status: 200, description: "User Deleted" })
+    async deleteUser(@Param("id") userId: string) {
+        if (!(await this.userService.userExistById(userId))) {
+            throw new NotFoundException(`user ${userId} not found`);
+        }
+        await this.userService.deleteUser(userId);
         return "ok";
     }
 }

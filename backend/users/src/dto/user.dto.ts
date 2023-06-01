@@ -1,20 +1,20 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IUser } from "../types";
-import { IsNotEmpty, Length, IsNumber, IsEmail, IsBoolean, IsString } from "class-validator";
+import { IsNotEmpty, Length, IsNumber, IsEmail, IsBoolean, IsString, IsOptional } from "class-validator";
 export class UserDto implements IUser {
-    @ApiProperty({ description: "User name", required: true })
+    @ApiProperty({ description: "User name", required: true, example: "Jonathan" })
     @IsNotEmpty()
     @Length(5, 20)
     name: string;
 
-    @ApiProperty({ description: "User last names", required: true })
+    @ApiProperty({ description: "User last names", required: true, example: "Ken smallville" })
     @IsNotEmpty()
     @Length(5, 20)
     lastNames: string;
 
     @IsNotEmpty()
     @IsEmail()
-    @ApiProperty({ description: "User email", required: true })
+    @ApiProperty({ description: "User email", required: true, example: "test@test.com" })
     email: string;
 
     @IsNotEmpty()
@@ -22,7 +22,7 @@ export class UserDto implements IUser {
     @ApiProperty({
         description: "User password. This value will be hashed and then stored. We won't save plain passwords",
         required: true,
-        example: "asdf7623uh23d032eqwe",
+        example: "MySecretPassword",
     })
     password: string;
 
@@ -46,7 +46,7 @@ export class UserDto implements IUser {
     @ApiProperty({
         description: "User's nick name",
         required: false,
-        default: "user's name",
+        example: "Barto",
     })
     @IsString()
     username?: string;
@@ -69,12 +69,13 @@ export class UserDto implements IUser {
 }
 
 export class UserEditableDto {
-    @IsNotEmpty()
     @IsString()
-    @ApiProperty({ description: "User name", required: false })
+    @IsOptional()
+    @ApiProperty({ description: "User name", example: "Jonathan", required: false })
     name?: string;
 
-    @ApiProperty({ description: "User last names", required: false })
+    @ApiProperty({ description: "User last names", example: "Ken smallville", required: false })
+    @IsOptional()
     @IsString()
     lastNames?: string;
 
@@ -82,9 +83,10 @@ export class UserEditableDto {
         description:
             "User Birthday. We care only month & day since we won't calculate the exact number of years the user va a cumplir",
         required: false,
-        example: "07/15/2023",
+        example: 1689400800000,
     })
     @IsNumber()
+    @IsOptional()
     birthday?: number;
 
     @ApiProperty({
@@ -93,13 +95,15 @@ export class UserEditableDto {
         default: false,
     })
     @IsBoolean()
+    @IsOptional()
     private?: boolean;
 
     @ApiProperty({
         description: "User's nick name",
         required: false,
-        default: "user's name",
+        default: "Barto",
     })
+    @IsOptional()
     @IsString()
     username?: string;
 
@@ -109,6 +113,7 @@ export class UserEditableDto {
         default: true,
     })
     @IsBoolean()
+    @IsOptional()
     notifications?: boolean;
 
     @ApiProperty({
@@ -116,6 +121,7 @@ export class UserEditableDto {
         required: false,
         default: true,
     })
+    @IsOptional()
     @IsBoolean()
     messages?: boolean;
 }
