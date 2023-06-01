@@ -1,3 +1,10 @@
+# Documentation
+While skaffold is running. Access User's microservice documentation on:
+https://gym.dev/api/users/docs/
+
+
+## Nest default readme below...
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
