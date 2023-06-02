@@ -5,6 +5,14 @@ Microservices can be developed in any language or technology since the dependenc
 ## New Microservice
 
 -   Create the microservice inside the backend folder
+
+```
+cd backend
+npx @nestjs/cli new <service-name>
+```
+
+**This is a nestjs app example. But you can use any other type of technology**
+
 -   Add a Dockerfile for your service with instructions on how to create the image
 -   Create the docker image & publish it into docker hub.
 
