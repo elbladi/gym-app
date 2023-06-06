@@ -4,8 +4,6 @@ import * as Joi from "joi";
 import { MongooseModule } from "@nestjs/mongoose";
 import { MongooseConfigService } from "./mongo.service";
 import { UsersModule } from "./users.module";
-import { UserController } from "./user.controller";
-import { UserService } from "./user.service";
 
 @Module({
     imports: [
