@@ -3,6 +3,7 @@ import { LocationDto } from "../dto/location.dto";
 import { RestrictionsDto } from "../dto/restrictions.dto";
 import { ServicesDto } from "../dto/services.dto";
 import { HydratedDocument } from "mongoose";
+import { HorarioDto } from "../dto/horario.dto";
 
 @Schema()
 export class Gym {
@@ -16,7 +17,7 @@ export class Gym {
     precio: number;
 
     @Prop()
-    horario: string;
+    horario: HorarioDto;
 
     @Prop()
     images?: string[];
