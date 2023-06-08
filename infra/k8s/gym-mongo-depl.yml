@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gym-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gym-mongo
+  template:
+    metadata:
+      labels:
+        app: gym-mongo
+    spec:
+      containers:
+        - name: gym-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gym-mongo-srv
+spec:
+  selector:
+    app: gym-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

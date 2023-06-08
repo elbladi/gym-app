@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gym-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gym
+  template:
+    metadata:
+      labels:
+        app: gym
+    spec:
+      containers:
+        - name: gym
+          image: bladorihuela/gym
+          env:
+            - name: MONGO_URI
+              value: "mongodb://gym-mongo-srv:27017/gym"
+            - name: CLUSTER_ID
+              value: "gym"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gym-srv
+spec:
+  selector:
+    app: gym
+  ports:
+    - name: gym
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
