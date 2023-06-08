@@ -27,12 +27,21 @@ export class UserDto implements IUser {
     password: string;
 
     @ApiProperty({
+        description: "whether the user is Gym owner",
+        required: true,
+        default: false,
+    })
+    @IsBoolean()
+    isOwner: boolean;
+
+    @ApiProperty({
         description:
             "User Birthday. We care only month & day since we won't calculate the exact number of years the user va a cumplir",
         required: false,
         example: 1689400800000,
     })
     @IsNumber()
+    @IsOptional()
     birthday?: number;
 
     @ApiProperty({
@@ -41,6 +50,7 @@ export class UserDto implements IUser {
         default: false,
     })
     @IsBoolean()
+    @IsOptional()
     private?: boolean;
 
     @ApiProperty({
@@ -49,6 +59,7 @@ export class UserDto implements IUser {
         example: "Barto",
     })
     @IsString()
+    @IsOptional()
     username?: string;
 
     @ApiProperty({
@@ -57,6 +68,7 @@ export class UserDto implements IUser {
         default: true,
     })
     @IsBoolean()
+    @IsOptional()
     notifications?: boolean;
 
     @ApiProperty({
@@ -65,6 +77,7 @@ export class UserDto implements IUser {
         default: true,
     })
     @IsBoolean()
+    @IsOptional()
     messages?: boolean;
 }
 

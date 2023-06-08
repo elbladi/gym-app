@@ -22,10 +22,13 @@ export class UserController {
     @ApiTags("Create User")
     @ApiOperation({ description: "Create new user" })
     @ApiResponse({ status: 201, description: "User created" })
-    @ApiResponse({ status: 400, description: "Bad Request: Validate the user doesn't exist" })
+    @ApiResponse({
+        status: 400,
+        description: "Bad Request: Validate the user doesn't exist already",
+    })
     async createNewUser(@Body() data: UserDto): Promise<{ id: string }> {
         const userExist = await this.userService.userExist(data.email);
-        if (userExist) throw new BadRequestException("User already exists");
+        if (userExist) throw new BadRequestException(`email ${data.email} already exists`);
 
         const id = await this.userService.createUser(data);
         return { id };

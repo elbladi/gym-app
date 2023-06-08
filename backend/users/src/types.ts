@@ -3,6 +3,7 @@ export interface IUser {
     lastNames: string;
     email: string;
     password: string;
+    isOwner: boolean;
     birthday?: number;
     private?: boolean;
     username?: string;
