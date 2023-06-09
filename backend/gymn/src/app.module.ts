@@ -3,7 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 import * as Joi from "joi";
 import { MongooseModule } from "@nestjs/mongoose";
 import { MongooseConfigService } from "./mongo.service";
-import { UsersModule } from "./users.module";
+import { GymModule } from "./gym/gym.module";
 
 @Module({
     imports: [
@@ -17,7 +17,7 @@ import { UsersModule } from "./users.module";
             useClass: MongooseConfigService,
             imports: [ConfigModule],
         }),
-        UsersModule,
+        GymModule,
     ],
 })
 export class AppModule {}

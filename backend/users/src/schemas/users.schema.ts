@@ -18,6 +18,9 @@ export class User implements IUser {
     password: string;
 
     @Prop()
+    isOwner: boolean;
+
+    @Prop()
     birthday?: number;
 
     @Prop()
