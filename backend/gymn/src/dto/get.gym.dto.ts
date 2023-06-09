@@ -5,21 +5,15 @@ import { LocationDto } from "./location.dto";
 import { ServicesDto } from "./services.dto";
 import { RestrictionsDto } from "./restrictions.dto";
 
-export class UpdateGymDto {
-    @ApiProperty({ description: "Owner Id", required: true })
-    @IsNotEmpty()
-    @IsString()
-    ownerId: string;
-
+export class GetGymDto {
     @ApiProperty({ description: "Gym Id", required: true })
     @IsNotEmpty()
     @IsString()
     gymId: string;
 
-    @ApiProperty({ description: "Gym's name", required: false })
+    @ApiProperty({ description: "Gym's name", required: true })
     @IsString()
-    @IsOptional()
-    name?: string;
+    name: string;
 
     @ApiProperty({ description: "Gym's price per visit", required: false })
     @IsNumber()
@@ -47,10 +41,8 @@ export class UpdateGymDto {
     description?: string;
 
     @ApiProperty({ description: "Gym's services", required: false, type: ServicesDto })
-    @IsOptional()
-    services?: ServicesDto;
+    services: ServicesDto;
 
     @ApiProperty({ description: "Gym's restrictions", required: false, type: RestrictionsDto })
-    @IsOptional()
-    restrictions?: RestrictionsDto;
+    restrictions: RestrictionsDto;
 }
