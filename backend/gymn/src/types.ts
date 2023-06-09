@@ -1,6 +1,7 @@
 export interface ISchedule {
-    openAt: number;
-    closesAt: number;
+    openAt?: number;
+    closesAt?: number;
+    closed?: boolean;
 }
 
 export interface IHorario {
