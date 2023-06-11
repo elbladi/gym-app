@@ -5,6 +5,8 @@ import { NewGymDto } from "../dto/new.gym.dto";
 import { NewGymResponse } from "../responses/gym.resp";
 import { UpdateGymDto } from "../dto/update.gym.dto";
 import { GetGymDto } from "../dto/get.gym.dto";
+import { filterGyms } from "./utils";
+import { FilterResponse } from "../responses/filter.result.resp";
 
 @Controller()
 export class GymController {
@@ -48,5 +50,23 @@ export class GymController {
     @ApiResponse({ status: 200, description: "List all the gyms", type: GetGymDto, isArray: true })
     async getAllGyms(): Promise<GetGymDto[]> {
         return await this.gymService.getAllGyms();
+    }
+
+    @ApiTags("Get Operations")
+    @Get(":lat/:lon")
+    @ApiOperation({
+        description: "List of gyms that are closed to the provided location, with a threashold of 1km",
+    })
+    @ApiResponse({
+        status: 200,
+        description: "List with all gyms and a number of how many gyms didn't make the filter",
+        type: GetGymDto,
+        isArray: true,
+    })
+    async getNearGyms(@Param("lat") lat: number, @Param("lon") lon: number): Promise<FilterResponse> {
+        //TODO get all gyms BY CITY to shorthen the list.
+        const gymList: GetGymDto[] = await this.gymService.getAllGyms();
+
+        return filterGyms(gymList, { lat, lon });
     }
 }

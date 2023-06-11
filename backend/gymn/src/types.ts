@@ -1,8 +1,20 @@
+import { FilteredGymDto } from "./dto/filtered.gym.dto";
+
 export interface ISchedule {
     openAt?: number;
     closesAt?: number;
     closed?: boolean;
 }
+
+export interface GymsLocation extends ILocation {
+    gymId: string;
+    distance?: number;
+}
+
+export type FilterResult = {
+    gyms: FilteredGymDto[];
+    farCounter: number;
+};
 
 export interface IHorario {
     Lu: ISchedule;

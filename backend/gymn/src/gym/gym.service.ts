@@ -6,6 +6,7 @@ import { NewGymResponse } from "../responses/gym.resp";
 import { Gym, GymDoc } from "../schemas/gym.schema";
 import { UpdateGymDto } from "../dto/update.gym.dto";
 import { GetGymDto } from "../dto/get.gym.dto";
+import { GymsLocation } from "../types";
 
 @Injectable()
 export class GymService {
@@ -13,6 +14,17 @@ export class GymService {
 
     validateId(id: string): boolean {
         return mongoose.Types.ObjectId.isValid(id);
+    }
+
+    async getGymsLocations(): Promise<GymsLocation[]> {
+        const gyms = await this.gymModel.find({});
+        return gyms.map((gym: GymDoc) => {
+            return {
+                gymId: gym._id.toHexString(),
+                lat: gym.location.lat,
+                lon: gym.location.lon,
+            };
+        });
     }
 
     async getAllGyms(): Promise<GetGymDto[]> {
