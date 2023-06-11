@@ -24,3 +24,10 @@ spec:
                 name: gym-srv
                 port:
                   number: 3000
+          - path: /api/favorites/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: favorites-srv
+                port:
+                  number: 3000
