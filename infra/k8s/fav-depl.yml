@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: favorites-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: favorites
+  template:
+    metadata:
+      labels:
+        app: favorites
+    spec:
+      containers:
+        - name: favorites
+          image: bladorihuela/favorites
+          env:
+            - name: MONGO_URI
+              value: "mongodb://favorites-mongo-srv:27017/favorites"
+            - name: CLUSTER_ID
+              value: "favorites"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: favorites-srv
+spec:
+  selector:
+    app: favorites
+  ports:
+    - name: favorites
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
