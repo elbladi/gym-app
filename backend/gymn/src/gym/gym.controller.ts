@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Get, Param, Post, Put, UnauthorizedException } from "@nestjs/common";
 import { GymService } from "./gym.service";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { NewGymDto } from "../dto/new.gym.dto";
@@ -16,6 +16,7 @@ export class GymController {
     @ApiTags("Create Gym")
     @ApiOperation({ description: "Create gym" })
     @ApiResponse({ status: 201, description: "Gym created" })
+    @ApiResponse({ status: 400, description: "Provided owner ID is not valid", type: BadRequestException })
     async createGym(@Body() data: NewGymDto): Promise<NewGymResponse> {
         return await this.gymService.createGym(data);
     }

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import mongoose, { Model } from "mongoose";
 import { NewGymDto } from "../dto/new.gym.dto";
@@ -64,6 +64,10 @@ export class GymService {
     }
 
     async createGym(data: NewGymDto): Promise<NewGymResponse> {
+        if (!this.validateId(data.ownerId)) {
+            throw new BadRequestException(`invalid ownerId: ${data.ownerId}`);
+        }
+
         const newGym = new this.gymModel(data);
         await newGym.save();
 
@@ -86,6 +90,13 @@ export class GymService {
     }
 
     async updateGym(data: UpdateGymDto) {
+        if (!this.validateId(data.gymId)) {
+            throw new BadRequestException(`invalid gymId: ${data.gymId}`);
+        }
+        if (!this.validateId(data.ownerId)) {
+            throw new BadRequestException(`invalid ownerId: ${data.ownerId}`);
+        }
+
         // validate gym exist
         const found = await this.gymModel.findById(data.gymId);
         if (found === null) throw new NotFoundException(`Gym ${data.gymId} not found`);

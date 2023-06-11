@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { ISchedule } from "../types";
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
+import { IsBoolean, IsNumber, IsOptional } from "class-validator";
 
 export class Schedule implements ISchedule {
     @ApiProperty({ description: "Time in timestamp at the time the gym opens", example: 1689446700000 })
