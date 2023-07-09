@@ -1,6 +1,6 @@
 ## Gym app
 
-Name: TBD
+Name: GymGo
 
 # Development
 
