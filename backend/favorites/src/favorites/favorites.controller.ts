@@ -24,8 +24,11 @@ export class FavoritesController {
     }
 
     @Get(":userId")
+    @ApiTags("Get a list of gyms the user saved as favorites")
+    @ApiResponse({ status: 400, description: "Invalid User ID" })
     @ApiResponse({ status: 200, description: "List of favorite gyms by user provided" })
     async getByUser(@Param("userId") userId: string): Promise<GymDto[]> {
+        if (!this.favService.validateId(userId)) throw new BadRequestException("invalid User ID");
         return await this.favService.getFavsByUserId(userId);
     }
 }
